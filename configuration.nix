@@ -179,5 +179,9 @@ in
     "nix-command"
     "flakes"
   ];
+  nix.settings.allowed-users = [
+    "@wheel"
+    "*"
+  ];
 }
 
