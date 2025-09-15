@@ -3,12 +3,16 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
 { config, lib, pkgs, ... }:
-
+let
+  unstable = import <unstable> { };
+in
 {
   imports =
     [ # Include the results of the hardware scan.
+      ## <unstable/nixos/modules/services/misc/homepage-dashboard.nix>
       ./hardware-configuration.nix
     ];
+  ## disabledModules = [ "services/misc/homepage-dashboard.nix" ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -112,10 +116,20 @@
     curl
     git
     pkgs.nix-ld
+    ## unstable.homepage-dashboard
   ];
 
   programs.nix-ld.enable = true;
   services.openssh.enable = true;
+
+
+  #services.homepage-dashboard = {
+  #  enable = true;
+  #  package = unstable.homepage-dashboard;
+  #  listenPort = 8082;
+  #  bookmarks = true;
+  #};
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -134,12 +148,12 @@
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
+  system.copySystemConfiguration = false;
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
@@ -160,5 +174,10 @@
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "25.05"; # Did you read the comment?
 
+
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 }
 
