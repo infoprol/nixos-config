@@ -96,12 +96,10 @@
           "encode64"
           "gh"
           "history-substring-search"
-          "hitchhiker"
           "kubectl"
           "nvm"
           "zsh-interactive-cd"
           "zsh-navigation-tools"
-          "zsh-autosuggestions"
         ];
       };
 

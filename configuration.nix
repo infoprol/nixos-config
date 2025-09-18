@@ -118,6 +118,8 @@ in
     git
     pkgs.nix-ld
     zsh
+    fzf
+    fortune
     ## unstable.homepage-dashboard
   ];
 
