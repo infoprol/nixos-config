@@ -77,6 +77,11 @@
   programs.zsh = {
       enable = true;
       syntaxHighlighting.enable = true;
+      history = {
+      	size = 1000000;
+        ignoreAllDups = true;
+        path = "$HOME/.zsh_history";
+      };
       oh-my-zsh = {
         enable = true;
         theme = "obraun";

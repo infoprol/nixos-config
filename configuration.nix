@@ -90,6 +90,7 @@ in
       vscode
       vscode-extensions.gleam.gleam
     ];
+    shell = pkgs.zsh;
   };
   
   #programs.git = {
@@ -122,6 +123,7 @@ in
 
   programs.nix-ld.enable = true;
   services.openssh.enable = true;
+  programs.zsh.enable = true;
 
 
   #services.homepage-dashboard = {
