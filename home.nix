@@ -75,10 +75,7 @@
   programs.home-manager.enable = true;
 
   programs.zsh = {
-    programs.zsh = {
       enable = true;
-      enableCompletions = true;
-      autosuggestions.enable = true;
       syntaxHighlighting.enable = true;
       oh-my-zsh = {
         enable = true;
@@ -100,10 +97,9 @@
           "zsh-interactive-cd"
           "zsh-navigation-tools"
           "zsh-autosuggestions"
-        ]
-      }
+        ];
+      };
 
-    }    
-  }
+  };
 
 }
