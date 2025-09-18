@@ -108,18 +108,28 @@ in
   }];  
 
   programs.firefox.enable = true;
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
+
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    neovim
     wget
     curl
     git
     pkgs.nix-ld
     zsh
     fzf
-    fortune
+    kitty
+    #hyprland
+    waybar
+    wofi
+    nwg-look
     ## unstable.homepage-dashboard
   ];
 
