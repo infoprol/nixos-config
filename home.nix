@@ -68,9 +68,42 @@
   #  /etc/profiles/per-user/geezus/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    EDITOR = "nvim";
   };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  programs.zsh = {
+    programs.zsh = {
+      enable = true;
+      enableCompletions = true;
+      autosuggestions.enable = true;
+      syntaxHighlighting.enable = true;
+      oh-my-zsh = {
+        enable = true;
+        theme = "obraun";
+        plugins = [
+          "git"
+          "alias-finder"
+          "aws"
+          "colored-man-pages"
+          "colorize"
+          "copybuffer"
+          "docker"
+          "encode64"
+          "gh"
+          "history-substring-search"
+          "hitchhiker"
+          "kubectl"
+          "nvm"
+          "zsh-interactive-cd"
+          "zsh-navigation-tools"
+          "zsh-autosuggestions"
+        ]
+      }
+
+    }    
+  }
+
 }
