@@ -129,9 +129,12 @@
 #    settings = {
 #    };
     plugins = [
-      inputs.hyprland-plugins.packages.${pkgs.system}.hyprexpo
-      inputs.hyprland-plugins.packages.${pkgs.system}.hyprscrolling
-      inputs.hyprland-plugins.packages.${pkgs.system}.hyprbars 
+       pkgs.hyprlandPlugins.hyprexpo
+#       pkgs.hyprlandPlugins.hyprscrolling
+       pkgs.hyprlandPlugins.hyprbars
+#      hyprland-plugins.packages.${pkgs.system}.hyprexpo
+#      hyprland-plugins.packages.${pkgs.system}.hyprscrolling
+#      hyprland-plugins.packages.${pkgs.system}.hyprbars 
     ];
 
   };
