@@ -58,6 +58,14 @@
     variant = "";
   };
 
+  programs.hyprland.enable = true;
+  #programs.hyprland = {
+  #  enable = true;
+  #  xwayland.enable = true;
+  #};
+  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -107,6 +115,7 @@
     wget
     curl
     git
+    kitty
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

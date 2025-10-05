@@ -1,4 +1,8 @@
-{ config, pkgs, ... }:
+{ inputs,
+  outputs,
+  config,
+  pkgs,
+   ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -117,6 +121,25 @@
       ];
     };
   };
+
+
+  programs.kitty.enable = true;
+  wayland.windowManager.hyprland = {
+    enable = true;
+#    settings = {
+#    };
+    plugins = [
+      inputs.hyprland-plugins.packages.${pkgs.system}.hyprexpo
+      inputs.hyprland-plugins.packages.${pkgs.system}.hyprscrolling
+      inputs.hyprland-plugins.packages.${pkgs.system}.hyprbars 
+    ];
+
+  };
+
+
+
+
+
 }
 
 
