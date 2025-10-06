@@ -141,6 +141,7 @@
     dunst
     libnotify
     #vscode.fhs
+    emacs
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -173,4 +174,10 @@
 
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+
+  services.emacs = {
+    enable = true;
+    package = pkgs.emacs;
+  };
 }
