@@ -61,12 +61,15 @@
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
+    #package = inputs.hyprland.packages."${pkgs.system}".hyprland;    
   };
   #programs.hyprland = {
   #  enable = true;
   #  xwayland.enable = true;
   #};
-  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables.WLR_NO_HARDWARE_CURSORS = "1";
+  environment.sessionVariables.NIXPKGS_ALLOW_UNFREE = "1";
 
 
   # Enable CUPS to print documents.
@@ -88,11 +91,16 @@
     #media-session.enable = true;
   };
 
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   programs.zsh.enable = true;
+
+
 
   users.users.infoprol = {
     isNormalUser = true;
@@ -110,15 +118,29 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  #allowUnfree = true;
 
+  #programs.hyprland.enabled = true;
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    waybar
+    #(pkgs.waybar.overrideAttrs (oldAttrs: {
+    #  mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+    # }))
+    wofi
+    bemenu
+    fuzzel
+    tofi
+    nwg-look
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     curl
     git
     kitty
+    dunst
+    libnotify
+    #vscode.fhs
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

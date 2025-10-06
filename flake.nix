@@ -16,18 +16,31 @@
       # i suppose it depends on what follows here means...?
       inputs.nixpkgs.follows = "home-manager";
     };
-    
-#    hyprland.url = "github:hyprwm/Hyprland";
-#    hyprland-plugins = {
-#      url = "github:hyprwm/hyprland-plugins";
-#      inputs.hyprland.follows = "hyprland";
+
+#    quickshell = {
+#      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+#      input.nixpkgs.follows = "nixpkgs";
 #    };
+   
+#    caelestia-shell = {
+#      url = "github:caelestia-dots/shell";
+#      inputs.nixpkgs.follows = "nixpkgs";
+#    };
+    
+    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
   };
   
   outputs =
   {   self, nixpkgs,
       home-manager,
       catppuccin,
+      hyprland,
+      hyprland-plugins,
+#      caelestia-shell,
 #      hyprland,
 #      hyprland-plugins,
       ...
@@ -42,6 +55,14 @@
         inherit system;
         modules = [
           ./configuration.nix
+          #{
+          #  nixpkgs.overlays = [
+          #    (final: prev: {
+          #      caelestia-shell = caelestia-shell.packages.${system}.caelestia-shell;
+          #      caelestia-cli   = caelestia-shell.inputs.caelestia-cli.packages.${system}.caelestia-cli;
+          #    })
+          #  ];
+          #}
         ];
       };
     };
@@ -51,6 +72,7 @@
         modules = [
           ./home.nix
           catppuccin.homeModules.catppuccin
+          # caelestia-shell.homeModules.default
 #          {
 #          wayland.windowManager.hyprland = {
 #            enable = true;

@@ -21,11 +21,26 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
-    # # Adds the 'hello' command to your environment. It prints a friendly
+  
+#  let
+#    caelestia-shell = inputs.caelestia-shell.packages.${pkgs.system}.default.override {
+#      withCli = true;
+#    };
+#  in
+#  {
+#    home.packages = with pkgs; [
+#      caelestia-shell
+#    ];
+#  }
+      
+
+  home.packages = with pkgs; [
+#    caelestia-shell
+#    caelestia-cli
+    # # Adds the 'hello' command to your . It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
-
+#    (pkgs.caelestia-shell.packages.${pkgs.system}.default.override { withCli = true; })
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -123,25 +138,34 @@
   };
 
 
+
+
+
   programs.kitty.enable = true;
-  wayland.windowManager.hyprland = {
-    enable = true;
+#  wayland.windowManager.hyprland = {
+#    enable = true;
 #    settings = {
+#      exec-once = [
+#        "caelestia-shell -d"
+#      ];
 #    };
-    plugins = [
-       pkgs.hyprlandPlugins.hyprexpo
+#    plugins = [
+#       pkgs.hyprlandPlugins.hyprexpo
 #       pkgs.hyprlandPlugins.hyprscrolling
-       pkgs.hyprlandPlugins.hyprbars
+#       pkgs.hyprlandPlugins.hyprbars
 #      hyprland-plugins.packages.${pkgs.system}.hyprexpo
 #      hyprland-plugins.packages.${pkgs.system}.hyprscrolling
 #      hyprland-plugins.packages.${pkgs.system}.hyprbars 
-    ];
+#    ];
 
-  };
-
-
+#  };
 
 
+
+  #programs.vscode = {
+  #  enable = true;
+  #  package = pkgs.vscode.fhs;
+  #};
 
 }
 
