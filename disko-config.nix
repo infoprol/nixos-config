@@ -9,6 +9,8 @@
         content = {
           type = "gpt";
           partitions = {
+
+            
             ESP = {
               priority = 1;
               name = "ESP";
@@ -23,8 +25,17 @@
                 mountOptions = [ "umask=0077" ];
               };
             };
+            swap = {
+              # 16G * 2 = 32768M
+              size = "32G";  # "32768M";
+              content = {
+                type = "swap";
+                discardPolicy = "both";
+                resumeDevice = true;
+              }
+            };
             root = {
-              end = "-32G";
+              end = 210323456;
               content = {
                 type = "btrfs";
                 extraArgs = [ "-f" ]; # Override existing partition
@@ -36,10 +47,10 @@
                     mountpoint = "/";
                   };
                   # Subvolume name is the same as the mountpoint
-                  "/home" = {
-                    mountOptions = [ "compress=zstd" ];
-                    mountpoint = "/home";
-                  };
+                  #"/home" = {
+                  #  mountOptions = [ "compress=zstd" ];
+                  #  mountpoint = "/home";
+                  #};
                   # Parent is not mounted so the mountpoint must be set
                   "/nix" = {
                     mountOptions = [
@@ -51,15 +62,20 @@
                 };
               };
             };
-            swap = {
-              # 16G * 2 = 32768M
-              size = "100%";  # "32768M";
+
+            home = {
+              size = "100%";
               content = {
-                type = "swap";
-                discardPolicy = "both";
-                resumeDevice = true;
-              }
+                type = "filesystem";
+                format = "ext4";
+                extraArgs = [];
+                mountpoint = "/home";
+                mountOptions = [
+                  "noatime"
+                ];
+              };
             };
+
           };
         };
       };
