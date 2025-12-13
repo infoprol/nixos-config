@@ -9,8 +9,6 @@
         content = {
           type = "gpt";
           partitions = {
-
-            
             ESP = {
               priority = 1;
               name = "ESP";
@@ -31,7 +29,7 @@
                 discardPolicy = "both";
                 resumeDevice = true;
                 extraArgs = [ "-L" "swap" ];
-              }
+              };
             };
             root = {
               size = "100%";
