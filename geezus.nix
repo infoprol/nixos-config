@@ -3,7 +3,13 @@
     home.username = "geezus";
     home.homeDirectory = "/home/geezus";
     home.stateVersion = "25.11";
-    programs.git.enable = true;
+    programs.git = {
+        enable = true;
+        config = {
+            user.name = "infoprol";
+            user.email = "infoprol@icloud.com";
+        };
+    };
     programs.bash = {
       enable = true;
       shellAliases = {
