@@ -14,8 +14,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   networking.hostName = "bellatrix"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -46,76 +45,77 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
+  #services.xserver.enable = true;
+  #services.displayManager.gdm.wayland = true;
+  #services.desktopManager.gnome.enable = true;
   # Enable the GNOME Desktop Environment.
   #services.xserver.displayManager.gdm.enable = true;
   #services.xserver.desktopManager.gnome.enable = true;
 
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
+  programs.uwsm.enable = true;
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+    xwayland.enable = true;
   };
+#  services.hypridle = {
+#    enabled = true;
+#    settings = {
+#      general = {
+#        after_sleep_cmd = "hyprctl dispatch dpms on";
+#	ignore_dbus_inhibit = false;
+#	lock_cmd = "hyprlock";
+#      };
+#      listener = [
+#        {
+#	  timeout = 900;
+#	  on-timeout = "hyprlock";
+#	}
+#	{
+#	  timeout = 1200;
+#	  on-timeout = "hyprctl dispatch dpms off";
+#	  on-resume  = "hyprctl dispatch dpms on";
+#	}
+#      ];
+#    };
+#  };
 
-  ## adapted from
-  ## https://nix.dev/tutorials/first-steps/ad-hoc-shell-environments
-  services.xserver = {
-    desktopManager = {
-      xterm.enable = true;
-      xfce = {
-        enable = true;
-        noDesktop = true;
-        enableXfwm = true;
-      };
-      displayManager = {
-        gdm.enable = true;
-        gnome.enable = true;
-        defaultSession = "xfce+i3";
-      };
-      windowManager.i3 = with pkgs; [
-        dmenu
-        i3status
-        i3lock
-        i3blocks
-      ];
-    };
-  };
+  # Configure keymap in X11
+  #services.xserver.xkb = {
+  #  layout = "us";
+  #  variant = "";
+  #};
 
   # Enable CUPS to print documents.
   #services.printing.enable = true;
 
   # Enable sound with pipewire.
-  # services.pulseaudio.enable = false;
-  # security.rtkit.enable = true;
-  # services.pipewire = {
-  #   enable = true;
-  #   alsa.enable = true;
-  #   alsa.support32Bit = true;
-  #   pulse.enable = true;
-  #   # If you want to use JACK applications, uncomment this
-  #   #jack.enable = true;
+  services.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
 
-  #   # use the example session manager (no others are packaged yet so this is enabled by default,
-  #   # no need to redefine it in your config for now)
-  #   #media-session.enable = true;
-  # };
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  programs.zsh.enable = true;
-
-  users.users.infoprol = {
+  users.users.geezus = {
     isNormalUser = true;
-    description = "slartibartfast";
+    description = "geezus";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
     #  thunderbird
-      zsh
     ];
-    shell = pkgs.zsh;
   };
 
   # Install firefox.
@@ -127,10 +127,16 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  #  wget
+    #hyprland
+    neovim
     wget
-    curl
     git
+    curl
+    kitty
+    wofi
+    kdePackages.dolphin
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -158,9 +164,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.05"; # Did you read the comment?
+  system.stateVersion = "25.11"; # Did you read the comment?
 
-
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 }

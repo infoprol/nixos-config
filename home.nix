@@ -102,6 +102,11 @@
 
   programs.zsh = {
     enable = true;
+    shellAliases = {
+      vim = "nvim";
+      ll = "ls -lrtah";
+      nixrb = "sudo nixos-rebuild switch";
+    };
     syntaxHighlighting.enable = true;
     #autosuggestions.enable = true;
     oh-my-zsh = {
