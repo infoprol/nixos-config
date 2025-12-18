@@ -3,11 +3,11 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, inputs, ... }:
-
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      inputs.dms.nixosModules.dankMaterialShell
     ];
 
   # Bootloader.
@@ -141,8 +141,14 @@
     kdePackages.polkit-kde-agent-1
     xwayland-satellite
     alacritty
-    inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.default
+    #inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
+
+
+  programs.dankMaterialShell = {
+    enable = true;
+  };
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
