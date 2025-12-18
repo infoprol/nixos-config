@@ -52,12 +52,20 @@
   #services.xserver.displayManager.gdm.enable = true;
   #services.xserver.desktopManager.gnome.enable = true;
 
-  programs.uwsm.enable = true;
-  programs.hyprland = {
+  programs.uwsm = {
     enable = true;
-    withUWSM = true;
-    xwayland.enable = true;
+    waylandCompositors.niri = {
+      prettyName = "Niri";
+      comment = "Niri managed by uwsm";
+      binPath = "${pkgs.niri}/bin/niri --session";
+    };
   };
+
+#  programs.hyprland = {
+#    enable = true;
+#    withUWSM = true;
+#    xwayland.enable = true;
+#  };
 #  services.hypridle = {
 #    enabled = true;
 #    settings = {
@@ -88,6 +96,11 @@
 
   # Enable CUPS to print documents.
   #services.printing.enable = true;
+
+  programs.niri = {
+    enable = true;
+  };
+
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
@@ -137,6 +150,7 @@
     kitty
     wofi
     kdePackages.dolphin
+    openssl
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
