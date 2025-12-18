@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 
 {
+#  imports = [
+#    inputs.noctalia.homeModules.default
+#  ];
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "geezus";  # "infoprol";
@@ -50,6 +54,9 @@
     #   org.gradle.daemon.idletimeout=3600000
     # '';
   };
+
+
+  programs.noctalia-shell.enable = true;
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
