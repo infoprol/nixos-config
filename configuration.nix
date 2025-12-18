@@ -23,8 +23,6 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Enable networking
-  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
@@ -52,55 +50,32 @@
   #services.xserver.displayManager.gdm.enable = true;
   #services.xserver.desktopManager.gnome.enable = true;
 
+  # for niri
   programs.uwsm = {
     enable = true;
     waylandCompositors.niri = {
       prettyName = "Niri";
       comment = "Niri managed by uwsm";
-      binPath = "${pkgs.niri}/bin/niri --session";
+      #binPath = "${pkgs.niri}/bin/niri --session";
+      binPath = "${pkgs.niri}/bin/niri-session";
     };
   };
-
-#  programs.hyprland = {
-#    enable = true;
-#    withUWSM = true;
-#    xwayland.enable = true;
-#  };
-#  services.hypridle = {
-#    enabled = true;
-#    settings = {
-#      general = {
-#        after_sleep_cmd = "hyprctl dispatch dpms on";
-#	ignore_dbus_inhibit = false;
-#	lock_cmd = "hyprlock";
-#      };
-#      listener = [
-#        {
-#	  timeout = 900;
-#	  on-timeout = "hyprlock";
-#	}
-#	{
-#	  timeout = 1200;
-#	  on-timeout = "hyprctl dispatch dpms off";
-#	  on-resume  = "hyprctl dispatch dpms on";
-#	}
-#      ];
-#    };
-#  };
-
-  # Configure keymap in X11
-  #services.xserver.xkb = {
-  #  layout = "us";
-  #  variant = "";
-  #};
-
-  # Enable CUPS to print documents.
-  #services.printing.enable = true;
-
   programs.niri = {
     enable = true;
+    #settings = {
+    #  environment = {
+    #    "NIXOS_OZONE_WL" = "1";
+    #  };
+    #};
   };
+  # for noctalia
+  networking.networkmanager.enable = true;
+  hardware.bluetooth.enable = true;
+  #services.power-profiles.daemon.enable = true; #OR services.tuned.enable?
+  services.tuned.enable = true;
+  services.upower.enable = true;
 
+  
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
@@ -151,6 +126,14 @@
     wofi
     kdePackages.dolphin
     openssl
+    mako
+    gnome-keyring
+    xdg-desktop-portal-gtk
+    xdg-desktop-portal-gnome
+    fuzzel
+    kdePackages.polkit-kde-agent-1
+    xwayland-satellite
+    alacritty
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
