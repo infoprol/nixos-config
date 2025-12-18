@@ -72,8 +72,8 @@
   networking.networkmanager.enable = true;
   hardware.bluetooth.enable = true;
   #services.power-profiles.daemon.enable = true; #OR services.tuned.enable?
-  services.tuned.enable = true;
-  services.upower.enable = true;
+  #services.tuned.enable = true;
+  #services.upower.enable = true;
 
   
 
@@ -112,13 +112,19 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  qt.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
     #hyprland
-    inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
+    qt6.wrapQtAppsHook
+    qt6.qtwayland
+    qt5.qtwayland
+    quickshell
+    #inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     neovim
     wget
     git
@@ -135,6 +141,7 @@
     kdePackages.polkit-kde-agent-1
     xwayland-satellite
     alacritty
+    inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

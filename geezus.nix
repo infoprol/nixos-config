@@ -22,6 +22,9 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
+    pkgs.discord-ptb
+
+    #caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.default
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -56,7 +59,7 @@
   };
 
 
-  programs.noctalia-shell.enable = true;
+  #programs.noctalia-shell.enable = true;
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
@@ -98,6 +101,27 @@
   programs.home-manager.enable = true;
 
 
+#   caelestia-shell = {
+#     enable = true;
+#     systemd = {
+#       enable = false; # if you prefer starting from your compositor
+#       target = "graphical-session.target";
+#       environment = [];
+#     };
+#     settings = {
+#       bar.status = {
+#         showBattery = false;
+#       };
+#       paths.wallpaperDir = "~/Images";
+#     };
+#     cli = {
+#       enable = true; # Also add caelestia-cli to path
+#       settings = {
+#         theme.enableGtk = false;
+#     };
+#   };
+# };
+
   programs.git = {
     enable = true;
     settings = {
@@ -130,6 +154,14 @@
         # "zsh-syntax-highlighting"
       ];
     };
+  };
+
+  programs.vscode = {
+    enable = true;
+    #package = pkgs.vscode.fhs;
+    package = pkgs.vscode.fhsWithPackages (ps: with ps; [
+      nixfmt
+    ]);
   };
 }
 

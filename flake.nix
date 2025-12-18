@@ -7,20 +7,27 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
+
+    caelestia-shell = {
+      url = "github:caelestia-dots/shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+
+    #noctalia = {
+    #  url = "github:noctalia-dev/noctalia-shell";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
+
   
 
   };
 
-  outputs = { self, nixpkgs, home-manager, noctalia, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, caelestia-shell, ... }@inputs: {
     nixosConfigurations.bellatrix = nixpkgs.lib.nixosSystem {
       specialArgs = { inherit inputs; };
       modules = [
         ./configuration.nix
-        ./noctalia.nix
 	home-manager.nixosModules.home-manager {
 	  home-manager.useGlobalPkgs = true;
 	  home-manager.useUserPackages = true;
