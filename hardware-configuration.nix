@@ -8,38 +8,54 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "usbhid" "sd_mod" "sdhci_pci" ];
+  boot.initrd.availableKernelModules = [ "nvme" "ahci" "xhci_pci" "thunderbolt" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/87c7c805-7a39-4e4d-a4e6-1c5c0c7803ad";
+    { device = "/dev/disk/by-uuid/d09ed126-0eaf-444c-b9c2-7381e516dfa8";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/4EDD-2FBB";
+    { device = "/dev/disk/by-uuid/63FC-A68A";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/316eaa35-2b17-46a6-8384-ab828823bb25";
-      fsType = "ext4";
-    };
-
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/f29d008f-d161-4dee-af80-52e30460a3b5"; }
+    [ { device = "/dev/disk/by-uuid/54a4953b-564c-4796-b08e-f4ca5654008d"; }
     ];
 
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp0s20f3.useDHCP = lib.mkDefault true;
+
+  hardware.system76.enableAll = true;
+
+  # nvidia stuff
+  hardware.graphics.enable = true;
+  services.xserver.videoDrivers = [
+    "nvidia"
+    "amdgpu"
+  ];
+
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    # open as in the opensource kernel module, NOT nouveau
+    open = true;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  
+    prime = {
+      offload.enable = true;
+      nvidiaBusId = "PCI:1:0:0";    # 01:00.0
+      amdgpuBusId = "PCI:113:0:0";  # 71:00.0
+    };
+
+  };
+
+
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

@@ -1,10 +1,18 @@
 { config, pkgs, ... }:
 
+  
 {
+  # imports = [
+  #   inputs.dms.homeModules.dankMaterialShell.default
+  # ];
+#  imports = [
+#    inputs.noctalia.homeModules.default
+#  ];
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "infoprol";
-  home.homeDirectory = "/home/infoprol";
+  home.username = "geezus";  # "infoprol";
+  home.homeDirectory = "/home/geezus";  # infoprol";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -18,6 +26,9 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
+    pkgs.discord-ptb
+
+    #caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.default
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -50,6 +61,9 @@
     #   org.gradle.daemon.idletimeout=3600000
     # '';
   };
+
+
+  #programs.noctalia-shell.enable = true;
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
@@ -91,11 +105,34 @@
   programs.home-manager.enable = true;
 
 
+#   caelestia-shell = {
+#     enable = true;
+#     systemd = {
+#       enable = false; # if you prefer starting from your compositor
+#       target = "graphical-session.target";
+#       environment = [];
+#     };
+#     settings = {
+#       bar.status = {
+#         showBattery = false;
+#       };
+#       paths.wallpaperDir = "~/Images";
+#     };
+#     cli = {
+#       enable = true; # Also add caelestia-cli to path
+#       settings = {
+#         theme.enableGtk = false;
+#     };
+#   };
+# };
+
   programs.git = {
     enable = true;
-    userName = "infoprol";
-    userEmail = "infoprol@icloud.com";
-    extraConfig = {
+    settings = {
+      user = {
+        name = "infoprol";
+        email = "infoprol@icloud.com";
+      };
       github.user = "infoprol";
     };
   };
@@ -121,6 +158,14 @@
         # "zsh-syntax-highlighting"
       ];
     };
+  };
+
+  programs.vscode = {
+    enable = true;
+    #package = pkgs.vscode.fhs;
+    package = pkgs.vscode.fhsWithPackages (ps: with ps; [
+      nixfmt
+    ]);
   };
 }
 

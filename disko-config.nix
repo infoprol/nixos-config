@@ -5,44 +5,50 @@
     disk = {
       main = {
         type = "disk";
-        device = "/dev/disk/by-diskseq/1";
+        device = "/dev/nvme1n1";
         content = {
           type = "gpt";
           partitions = {
             ESP = {
               priority = 1;
               name = "ESP";
-              # start = "1M";
-              # end = "4096M";
               size = "4G";
               type = "EF00";
               content = {
                 type = "filesystem";
-                format = "fat32";  # "vfat";
+                format = "vfat";
                 mountpoint = "/boot";
                 mountOptions = [ "umask=0077" ];
+                extraArgs = [ "-L" "esp" ];
+              };
+            };
+            swap = {
+              size = "192G";
+              content = {
+                type = "swap";
+                discardPolicy = "both";
+                resumeDevice = true;
+                extraArgs = [ "-L" "swap" ];
               };
             };
             root = {
-              end = "-32G";
+              size = "100%";
               content = {
                 type = "btrfs";
-                extraArgs = [ "-f" ]; # Override existing partition
-                # Subvolumes must set a mountpoint in order to be mounted,
-                # unless their parent is mounted
+                extraArgs = [ "-L" "nixos" "-f" ]; # Override existing partition
                 subvolumes = {
-                  # Subvolume name is different from mountpoint
-                  "/rootfs" = {
+                  "root" = {
                     mountpoint = "/";
+                    mountOptions = [ "subvol=root" ];
                   };
-                  # Subvolume name is the same as the mountpoint
-                  "/home" = {
-                    mountOptions = [ "compress=zstd" ];
+                  "home" = {
+                    mountOptions = [ "subvol=home" "compress=zstd" ];
                     mountpoint = "/home";
                   };
                   # Parent is not mounted so the mountpoint must be set
-                  "/nix" = {
+                  "nix" = {
                     mountOptions = [
+                      "subvol=nix"
                       "compress=zstd"
                       "noatime"
                     ];
@@ -51,15 +57,8 @@
                 };
               };
             };
-            swap = {
-              # 16G * 2 = 32768M
-              size = "100%";  # "32768M";
-              content = {
-                type = "swap";
-                discardPolicy = "both";
-                resumeDevice = true;
-              }
-            };
+
+
           };
         };
       };

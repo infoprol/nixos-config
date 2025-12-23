@@ -1,49 +1,50 @@
 {
-  description = "matt flake";
+  description = "nixos unstable flake with home-manager";
 
   inputs = {
-    #nixpkgs = {
-    #  url = "github:NixOS/nixpkgs/nixos-25.05";
-    #};
-    nixpkgs.url = "nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    catppuccin = {
-      url = "github:catppuccin/nix/release-25.05";
-      # im not sure the following follows is necessary or not;
-      # i suppose it depends on what follows here means...?
-      inputs.nixpkgs.follows = "home-manager";
+    quickshell = {
+      url = "git+https://git.outfoxxed.me/quickshell/quickshell";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
-  };
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    
+
   
-  outputs =
-  {   self, nixpkgs,
-      home-manager, catppuccin,
-      ...
-  }:
-    let
-      system = "x86_64-linux"; 
-      lib = nixpkgs.lib;
-      pkgs = nixpkgs.legacyPackages.${system}; 
-    in {
-    nixosConfigurations = {
-      bellatrix = lib.nixosSystem {
-        inherit system;
-        modules = [
-          ./configuration.nix
-        ];
-      };
-    };
-    homeConfigurations = {
-      infoprol = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [
-          ./home.nix
-          catppuccin.homeModules.catppuccin
-        ];
-      };
+
+    # caelestia-shell = {
+    #   url = "github:caelestia-dots/shell";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+
+
+    #noctalia = {
+    #  url = "github:noctalia-dev/noctalia-shell";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
+
+  
+
+  };
+
+  outputs = { self, nixpkgs, home-manager, dms, ... }@inputs: {
+    nixosConfigurations.bellatrix = nixpkgs.lib.nixosSystem {
+      specialArgs = { inherit inputs; };
+      modules = [
+        ./configuration.nix
+      home-manager.nixosModules.home-manager {
+        home-manager.useGlobalPkgs = true;
+        home-manager.useUserPackages = true;
+        home-manager.users.geezus = import ./geezus.nix;
+      }
+      ];
     };
   };
 }

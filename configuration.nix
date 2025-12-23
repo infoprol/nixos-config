@@ -2,20 +2,19 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
-
+{ config, pkgs, inputs, ... }:
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      inputs.dms.nixosModules.dankMaterialShell
     ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   networking.hostName = "bellatrix"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -24,8 +23,6 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Enable networking
-  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
@@ -46,76 +43,67 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
+  #services.xserver.enable = true;
+  #services.displayManager.gdm.wayland = true;
+  #services.desktopManager.gnome.enable = true;
   # Enable the GNOME Desktop Environment.
   #services.xserver.displayManager.gdm.enable = true;
   #services.xserver.desktopManager.gnome.enable = true;
 
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
-
-  ## adapted from
-  ## https://nix.dev/tutorials/first-steps/ad-hoc-shell-environments
-  services.xserver = {
-    desktopManager = {
-      xterm.enable = true;
-      xfce = {
-        enable = true;
-        noDesktop = true;
-        enableXfwm = true;
-      };
-      displayManager = {
-        gdm.enable = true;
-        gnome.enable = true;
-        defaultSession = "xfce+i3";
-      };
-      windowManager.i3 = with pkgs; [
-        dmenu
-        i3status
-        i3lock
-        i3blocks
-      ];
+  # for niri
+  programs.uwsm = {
+    enable = true;
+    waylandCompositors.niri = {
+      prettyName = "Niri";
+      comment = "Niri managed by uwsm";
+      #binPath = "${pkgs.niri}/bin/niri --session";
+      binPath = "${pkgs.niri}/bin/niri-session";
     };
   };
+  programs.niri = {
+    enable = true;
+    #settings = {
+    #  environment = {
+    #    "NIXOS_OZONE_WL" = "1";
+    #  };
+    #};
+  };
+  # for noctalia
+  networking.networkmanager.enable = true;
+  hardware.bluetooth.enable = true;
+  #services.power-profiles.daemon.enable = true; #OR services.tuned.enable?
+  #services.tuned.enable = true;
+  #services.upower.enable = true;
 
-  # Enable CUPS to print documents.
-  #services.printing.enable = true;
+  
 
   # Enable sound with pipewire.
-  # services.pulseaudio.enable = false;
-  # security.rtkit.enable = true;
-  # services.pipewire = {
-  #   enable = true;
-  #   alsa.enable = true;
-  #   alsa.support32Bit = true;
-  #   pulse.enable = true;
-  #   # If you want to use JACK applications, uncomment this
-  #   #jack.enable = true;
+  services.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
 
-  #   # use the example session manager (no others are packaged yet so this is enabled by default,
-  #   # no need to redefine it in your config for now)
-  #   #media-session.enable = true;
-  # };
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  programs.zsh.enable = true;
-
-  users.users.infoprol = {
+  users.users.geezus = {
     isNormalUser = true;
-    description = "slartibartfast";
+    description = "geezus";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
     #  thunderbird
-      zsh
     ];
-    shell = pkgs.zsh;
   };
 
   # Install firefox.
@@ -124,14 +112,62 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  qt.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  #  wget
+    #hyprland
+    qt6.wrapQtAppsHook
+    qt6.qtwayland
+    qt5.qtwayland
+    quickshell
+    #inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
+    neovim
     wget
-    curl
     git
+    curl
+    kitty
+    wofi
+    kdePackages.dolphin
+    openssl
+    mako
+    gnome-keyring
+    xdg-desktop-portal-gtk
+    xdg-desktop-portal-gnome
+    fuzzel
+    kdePackages.polkit-kde-agent-1
+    xwayland-satellite
+    alacritty
+    #inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
+
+
+
+  programs.dankMaterialShell = {
+    enable = true;
+    systemd = {
+      enable = true;
+      restartIfChanged = true;
+    };
+    enableSystemMonitoring = true;
+    enableClipboard = true;
+    enableVPN = true;
+    enableDynamicTheming = true;
+    enableAudioWavelength = true;
+    enableCalendarEvents = true;
+
+    # default = {
+    #   settings = {
+    #     theme = "light";
+    #     dynamicTheming = true;
+    #   };
+    #   session = {};
+    # };
+  };
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -158,9 +194,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.05"; # Did you read the comment?
+  system.stateVersion = "25.11"; # Did you read the comment?
 
-
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 }
