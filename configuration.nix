@@ -6,7 +6,8 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      #./hardware-configuration.nix
+      lenovo-yoga.nix
       inputs.dms.nixosModules.dankMaterialShell
     ];
 
@@ -16,7 +17,7 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  networking.hostName = "bellatrix"; # Define your hostname.
+  networking.hostName = "altair"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -97,9 +98,9 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.geezus = {
+  users.users.infoprol = {
     isNormalUser = true;
-    description = "geezus";
+    description = "infoprol";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
     #  thunderbird
@@ -166,6 +167,24 @@
     #   };
     #   session = {};
     # };
+  };
+
+
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-color-emoji
+    liberation_ttf
+    fira-code
+    fira-code-symbols
+    mplus-outline-fonts.github.Release
+    dina-font
+    proggyfonts
+    source-code-pro
+  ];
+
+  services.emacs = {
+    enable = true;
+    package = pkgs.emacs;
   };
 
 

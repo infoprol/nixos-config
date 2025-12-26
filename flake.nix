@@ -35,7 +35,7 @@
   };
 
   outputs = { self, nixpkgs, home-manager, dms, ... }@inputs: {
-    nixosConfigurations.bellatrix = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.altair = nixpkgs.lib.nixosSystem {
       specialArgs = { inherit inputs; };
       modules = [
         ./configuration.nix
@@ -43,6 +43,7 @@
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.users.geezus = import ./geezus.nix;
+        home-manager.users.infoprol = import ./infoprol.nix;
       }
       ];
     };
