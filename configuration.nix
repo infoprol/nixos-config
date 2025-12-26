@@ -125,6 +125,7 @@
     qt6.qtwayland
     qt5.qtwayland
     quickshell
+    
     #inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     neovim
     wget
@@ -137,7 +138,9 @@
     mako
     gnome-keyring
     xdg-desktop-portal-gtk
-    xdg-desktop-portal-gnome
+    xdg-desktop-portal-gnomae
+    gsettings-desktop-schemas
+    gtk4
     fuzzel
     kdePackages.polkit-kde-agent-1
     xwayland-satellite
