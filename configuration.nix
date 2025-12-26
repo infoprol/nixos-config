@@ -7,7 +7,7 @@
   imports =
     [ # Include the results of the hardware scan.
       #./hardware-configuration.nix
-      lenovo-yoga.nix
+      ./lenovo-yoga.nix
       inputs.dms.nixosModules.dankMaterialShell
     ];
 
