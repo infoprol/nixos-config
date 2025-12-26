@@ -138,7 +138,7 @@
     mako
     gnome-keyring
     xdg-desktop-portal-gtk
-    xdg-desktop-portal-gnomae
+    xdg-desktop-portal-gnome
     gsettings-desktop-schemas
     gtk4
     fuzzel
