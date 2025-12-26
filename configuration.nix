@@ -142,6 +142,9 @@
     kdePackages.polkit-kde-agent-1
     xwayland-satellite
     alacritty
+    fastfetch
+    qt6ct
+    qt6ct-kde
     #inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
@@ -176,7 +179,6 @@
     liberation_ttf
     fira-code
     fira-code-symbols
-    mplus-outline-fonts.github.Release
     dina-font
     proggyfonts
     source-code-pro
