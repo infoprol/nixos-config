@@ -143,8 +143,8 @@
     xwayland-satellite
     alacritty
     fastfetch
-    qt6ct
-    qt6ct-kde
+    qt6Packages.qt6ct
+    qt6Packages.qt6ct-kde
     #inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
