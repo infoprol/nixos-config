@@ -42,7 +42,7 @@
       home-manager.nixosModules.home-manager {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
-        home-manager.users.geezus = import ./geezus.nix;
+#        home-manager.users.geezus = import ./geezus.nix;
         home-manager.users.infoprol = import ./infoprol.nix;
       }
       ];
