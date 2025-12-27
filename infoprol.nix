@@ -146,7 +146,7 @@
     };
     syntaxHighlighting.enable = true;
     completion.enable = true;
-    autosuggestions.enable = true;
+    #autosuggestions.enable = true;
     oh-my-zsh = {
       enable = true;
       #theme = "fino-time";
@@ -189,7 +189,7 @@
   programs = {
     eza = {
       enable = true;
-      alias = true;
+      #aliases = true;
       colors = true;
       icons = true;
       enableZshIntegration = true;
