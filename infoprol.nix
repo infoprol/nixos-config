@@ -164,7 +164,7 @@
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
-  }
+  };
 
   programs.vscode = {
     enable = true;
