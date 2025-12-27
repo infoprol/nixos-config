@@ -165,6 +165,8 @@
     #package = pkgs.vscode.fhs;
     package = pkgs.vscode.fhsWithPackages (ps: with ps; [
       nixfmt
+      direnv
+      #vscode-langservers-extracted
     ]);
   };
 
