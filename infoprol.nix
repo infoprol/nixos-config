@@ -190,7 +190,7 @@
     eza = {
       enable = true;
       #aliases = true;
-      colors = 'always';
+      colors = true;
       icons = true;
       enableZshIntegration = true;
     };
