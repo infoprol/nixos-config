@@ -145,11 +145,12 @@
       nixrb = "sudo nixos-rebuild switch";
     };
     syntaxHighlighting.enable = true;
-    #autosuggestions.enable = true;
+    completion.enable = true;
+    autosuggestions.enable = true;
     oh-my-zsh = {
       enable = true;
       #theme = "fino-time";
-      theme = "half-life";
+      theme = "dst";
       plugins = [
         "git"
         "history"
@@ -159,6 +160,11 @@
       ];
     };
   };
+
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  }
 
   programs.vscode = {
     enable = true;
@@ -177,6 +183,30 @@
       (setq standard-indent 2)
     '';
   };
+
+
+
+  programs = {
+    eza = {
+      enable = true;
+      alias = true;
+      colors = true;
+      icons = true;
+      enableZshIntegration = true;
+    };
+
+    direnv = {
+      enable = true;
+      enableZshIntegration = true;
+      #loadInNixShell = true;
+    };
+
+
+  }; 
+
+
+
+
 
 }
 
