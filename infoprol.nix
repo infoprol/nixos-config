@@ -145,7 +145,7 @@
       nixrb = "sudo nixos-rebuild switch";
     };
     syntaxHighlighting.enable = true;
-    completion.enable = true;
+    #completion.enable = true;
     #autosuggestions.enable = true;
     oh-my-zsh = {
       enable = true;
