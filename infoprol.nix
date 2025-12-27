@@ -191,7 +191,7 @@
       enable = true;
       #aliases = true;
       colors = "always";
-      icons = true;
+      icons = "auto";
       enableZshIntegration = true;
     };
 
