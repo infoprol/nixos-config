@@ -63,6 +63,26 @@
   };
   programs.niri = {
     enable = true;
+    settings = {
+      outputs = {
+        "HDMI-A-1" = {
+          mode = {
+            width = 3840;
+            height = 1080;
+            refresh = 60.0;
+            scale = 1.0;
+          };
+        };
+       "eDP-1" = {
+         mode = {
+           width = 1920;
+           height = 1200;
+           refresh = 60.0;
+           scale = 1.0;
+         };
+       };
+      };
+    };
     #settings = {
     #  environment = {
     #    "NIXOS_OZONE_WL" = "1";
