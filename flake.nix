@@ -15,9 +15,14 @@
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
 
-  
+    niri = {
+      url = "github.sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.niri-stable.url = "github:YaLTeR/niri/v25.11";
+    };
+
+
 
     # caelestia-shell = {
     #   url = "github:caelestia-dots/shell";

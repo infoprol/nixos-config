@@ -188,7 +188,7 @@
 
   programs = {
     eza = {
-      enable = true;
+      enable = true;{ }
       #aliases = true;
       colors = "always";
       icons = "auto";
@@ -200,6 +200,20 @@
       enableZshIntegration = true;
       #loadInNixShell = true;
     };
+
+    #from niri flake
+    niri.settings = {
+      outputs = {
+        "HDMI-A-1" = {
+          mode = { width: 3840; height = 1080; refresh = 60.0; scale = 1.0; };
+        };
+        "eDP-1" = {
+          mode = { width: 1920; height = 1200; refresh = 60.0; }
+        };
+      };
+    };
+
+
 
 
   }; 
