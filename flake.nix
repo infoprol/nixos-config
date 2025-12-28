@@ -15,9 +15,14 @@
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
 
-  
+    niri = {
+      url = "github.sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.niri-stable.url = "github:YaLTeR/niri/v25.11";
+    };
+
+
 
     # caelestia-shell = {
     #   url = "github:caelestia-dots/shell";
@@ -35,14 +40,15 @@
   };
 
   outputs = { self, nixpkgs, home-manager, dms, ... }@inputs: {
-    nixosConfigurations.bellatrix = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.altair = nixpkgs.lib.nixosSystem {
       specialArgs = { inherit inputs; };
       modules = [
         ./configuration.nix
       home-manager.nixosModules.home-manager {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
-        home-manager.users.geezus = import ./geezus.nix;
+#        home-manager.users.geezus = import ./geezus.nix;
+        home-manager.users.infoprol = import ./infoprol.nix;
       }
       ];
     };

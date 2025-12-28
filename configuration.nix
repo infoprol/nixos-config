@@ -6,7 +6,8 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      #./hardware-configuration.nix
+      ./lenovo-yoga.nix
       inputs.dms.nixosModules.dankMaterialShell
     ];
 
@@ -16,7 +17,7 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  networking.hostName = "bellatrix"; # Define your hostname.
+  networking.hostName = "altair"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -60,13 +61,11 @@
       binPath = "${pkgs.niri}/bin/niri-session";
     };
   };
-  programs.niri = {
-    enable = true;
-    #settings = {
-    #  environment = {
-    #    "NIXOS_OZONE_WL" = "1";
-    #  };
-    #};
+  #settings = {
+  #  environment = {
+  #    "NIXOS_OZONE_WL" = "1";
+  #  };
+  #};
   };
   # for noctalia
   networking.networkmanager.enable = true;
@@ -96,13 +95,17 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.geezus = {
+  users.users.infoprol = {
     isNormalUser = true;
-    description = "geezus";
+    description = "infoprol";
     extraGroups = [ "networkmanager" "wheel" ];
+    shell = pkgs.zsh;
     packages = with pkgs; [
-    #  thunderbird
+      zsh
+
     ];
   };
 
@@ -124,6 +127,7 @@
     qt6.qtwayland
     qt5.qtwayland
     quickshell
+    
     #inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     neovim
     wget
@@ -137,13 +141,16 @@
     gnome-keyring
     xdg-desktop-portal-gtk
     xdg-desktop-portal-gnome
+    gsettings-desktop-schemas
+    gtk4
     fuzzel
     kdePackages.polkit-kde-agent-1
     xwayland-satellite
     alacritty
+    fastfetch
+    qt6Packages.qt6ct
     #inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
-
 
 
   programs.dankMaterialShell = {
@@ -166,6 +173,23 @@
     #   };
     #   session = {};
     # };
+  };
+
+
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-color-emoji
+    liberation_ttf
+    fira-code
+    fira-code-symbols
+    dina-font
+    proggyfonts
+    source-code-pro
+  ];
+
+  services.emacs = {
+    enable = true;
+    package = pkgs.emacs;
   };
 
 
